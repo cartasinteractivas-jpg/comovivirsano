@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CÓMO VIVIR SANO - Un Método de Vida</title>
+    
+    <style>
+        /* Colores inspirados en el video: tonos verdes, beige/sepia, y naranjas */
+        :root {
+            --color-primary: #556B2F; /* Verde Oliva Oscuro (naturaleza) */
+            --color-secondary: #DAA520; /* Dorado/Amarillo Oscuro (énfasis) */
+            --color-background-light: #FBF8EC; /* Beige claro, papel viejo */
+            --color-text-dark: #333;
+            --color-accent-orange: #FF6347; /* Naranja/Rojo suave */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--color-background-light);
+            color: var(--color-text-dark);
+            overflow: hidden; 
+        }
+
+        /* --- Pantallas Principales --- */
+        .screen {
+            width: 100%;
+            height: 100vh;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* Estilo para la pantalla de Introducción (Transición) */
+        #intro-screen {
+            background-color: var(--color-background-light);
+            position: relative;
+            overflow: hidden;
+            /* Reemplaza con una imagen real del inicio del video para mayor fidelidad */
+            background-image: linear-gradient(to bottom right, #fcfaf3, #e8e4d9);
+        }
+
+        .intro-content {
+            z-index: 10;
+            color: var(--color-text-dark);
+            padding: 20px;
+        }
+
+        .title {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 0;
+            color: var(--color-primary);
+            text-shadow: 2px 2px var(--color-secondary);
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            margin-top: 5px;
+        }
+
+        /* Transición - Inicialmente invisible */
+        .transition-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-text-dark); 
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+            z-index: 20;
+        }
+
+        /* Estilo para la pantalla principal (Main) */
+        #main-screen {
+            background-color: var(--color-background-light);
+            /* Fondo con elementos de la naturaleza (árbol, río) como en (00:51) */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 100"><defs><pattern id="g" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M-1,1 l2,-2 M0,10 l10,-10 M9,11 l2,-2" stroke="rgba(0,0,0,0.05)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="none"/><rect width="100%" height="100%" fill="url(#g)"/></svg>');
+        }
+
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .quote-box {
+            font-size: 2em;
+            font-style: italic;
+            color: var(--color-primary);
+            margin-bottom: 30px;
+            padding: 15px;
+            border-left: 5px solid var(--color-secondary);
+        }
+        
+        .small-text {
+            color: var(--color-text-dark);
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        /* --- Botones y Formularios --- */
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+            text-decoration: none; 
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .primary-btn {
+            background-color: var(--color-accent-orange);
+            color: white;
+            box-shadow: 0 3px 0 #CC5237;
+        }
+
+        .primary-btn:hover {
+            background-color: #CC5237;
+        }
+
+        .secondary-btn {
+            background-color: var(--color-primary);
+            color: white;
+            box-shadow: 0 3px 0 #4C5D2A;
+        }
+
+        .secondary-btn:hover {
+            background-color: #4C5D2A;
+        }
+
+        /* --- Modales (Cuadros Flotantes) --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-content {
+            background-color: var(--color-background-light);
+            margin: 10% auto;
+            padding: 30px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            border: 3px solid var(--color-primary);
+        }
+
+        .modal-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+        }
+
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #000;
+        }
+
+        #registration-form input {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid var(--color-secondary);
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        
+        #registration-modal h2 {
+            color: var(--color-primary);
+        }
+
+        #payment-modal h2 {
+            color: var(--color-accent-orange);
+        }
+
+        .offer-description {
+            font-size: 1.1em;
+            margin: 20px 0;
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        #payment-modal ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        #payment-modal ul li {
+            background: var(--color-primary);
+            color: white;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            font-size: 0.95em;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="intro-screen" class="screen active">
+        <div class="intro-content">
+            <h1 class="title">CÓMO VIVIR SANO</h1>
+            <p class="subtitle">UN MÉTODO DE VIDA BASADO EN LAS LEYES NATURALES</p>
+            
+        </div>
+        <div class="transition-overlay"></div>
+    </div>
+
+    <div id="main-screen" class="screen">
+        <div class="main-content">
+            <div class="quote-box">
+                <p>¿Y si la respuesta estuviera en las leyes naturales?</p>
+            </div>
+            <button id="request-button" class="btn primary-btn">PEDIR MANUAL COMPLETO</button>
+            <p class="small-text">Sigue el camino de la **salud** y el **bienestar**.</p>
+        </div>
+    </div>
+
+    <div id="registration-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('registration-modal')">&times;</button>
+            <h2>Regístrate para Recibir el Manual 🌿</h2>
+            <form id="registration-form">
+                <input type="text" id="client-name" placeholder="Nombre Completo" required>
+                <input type="tel" id="client-phone" placeholder="Teléfono" required>
+                <input type="email" id="client-email" placeholder="Correo Electrónico" required>
+                <button type="submit" class="btn secondary-btn">REGISTRAR</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('payment-modal')">&times;</button>
+            <h2>¡Pago de 20 Soles! Accede a tu Material 📚</h2>
+            <p class="offer-description">
+                Por el pago de **20 soles**, obtienes de forma inmediata:
+            </p>
+            <ul>
+                <li>✅ Dos PDF del manual **CÓMO VIVIR SANO** (Tomo 1 y 2).</li>
+                <li>✅ Enlace de acceso al **libro virtual interactivo** (basado en el video).</li>
+            </ul>
+            <a href="https://link.de.pago/20soles" id="payment-link" class="btn primary-btn" target="_blank">ENLACE DE PAGO</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const introScreen = document.getElementById('intro-screen');
+            const mainScreen = document.getElementById('main-screen');
+            const transitionOverlay = document.querySelector('.transition-overlay');
+            const requestButton = document.getElementById('request-button');
+            const registrationModal = document.getElementById('registration-modal');
+            const paymentModal = document.getElementById('payment-modal');
+            const registrationForm = document.getElementById('registration-form');
+
+            // --- Funciones para Modales ---
+            window.closeModal = (id) => {
+                document.getElementById(id).style.display = 'none';
+            };
+
+            const openModal = (id) => {
+                document.getElementById(id).style.display = 'block';
+            };
+
+            // --- Simulación de Transición de Video (00:00 - 00:29) ---
+            setTimeout(() => {
+                // Inicia el 'fade out' del overlay (simulando la transición a negro)
+                transitionOverlay.style.opacity = 1;
+
+                setTimeout(() => {
+                    // Esconde la pantalla de intro y muestra la principal
+                    introScreen.classList.remove('active');
+                    mainScreen.classList.add('active');
+                }, 2000); // 2 segundos para la transición
+            }, 5000); // 5 segundos para que se vea la pantalla de intro antes de empezar
+
+            // --- Lógica del Botón "PEDIR LIBRO" ---
+            requestButton.addEventListener('click', () => {
+                openModal('registration-modal');
+            });
+
+            // --- Lógica del Formulario de Registro ---
+            registrationForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Recoger datos (para simulación/registro)
+                const clientName = document.getElementById('client-name').value;
+                const clientEmail = document.getElementById('client-email').value;
+                const clientPhone = document.getElementById('client-phone').value;
+                
+                // En un caso real, aquí enviarías los datos a tu CRM/Base de Datos
+                console.log(`[REGISTRO] Nombre: ${clientName}, Email: ${clientEmail}, Teléfono: ${clientPhone}`);
+                
+                // Cierra el modal de registro
+                closeModal('registration-modal');
+
+                // Abre el modal de pago
+                openModal('payment-modal');
+
+                // Generar un enlace de pago (SIMULADO)
+                const mockPaymentLink = `https://link-de-pago-seguro.com/pay-20soles?email=${encodeURIComponent(clientEmail)}`;
+                document.getElementById('payment-link').href = mockPaymentLink;
+            });
+        });
+    </script>
+</body>
+</html>
