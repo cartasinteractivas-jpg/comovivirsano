@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Pilas de Cajas en 3D - Versión Móvil</title>
+    <style>
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            background: #f0f0f0; 
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            touch-action: none; /* Evita comportamientos táctiles no deseados */
+        }
+        #contenedor { 
+            flex: 1; 
+            width: 100%; 
+        }
+        #controles { 
+            position: absolute; 
+            bottom: 20px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            z-index: 1; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            width: 90%; 
+            max-width: 400px; 
+        }
+        #entradaBusqueda { 
+            padding: 10px; 
+            font-size: 16px; 
+            width: 100%; 
+            margin-bottom: 10px; 
+            border: 2px solid #333; 
+            border-radius: 5px; 
+            box-sizing: border-box; 
+        }
+        #botonBusqueda { 
+            padding: 15px 30px; 
+            font-size: 18px; 
+            background-color: #4CAF50; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            width: 100%; 
+            max-width: 200px; 
+        }
+        #botonBusqueda:hover { 
+            background-color: #45a049; 
+        }
+    </style>
+</head>
+<body>
+    <div id="contenedor"></div>
+    <div id="controles">
+        <input type="text" id="entradaBusqueda" placeholder="Ingresa el nombre de la caja (ej. A02)">
+        <button id="botonBusqueda">Buscar</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/fonts/helvetiker_regular.typeface.json"></script>
+    <script>
+        console.log("Script iniciado. Verificando Three.js...");
+
+        if (typeof THREE === "undefined") {
+            console.error("Error: Three.js no se cargó correctamente. Verifica la conexión al CDN.");
+            alert("No se pudo cargar Three.js. Por favor, verifica tu conexión a internet o intenta con otro navegador.");
+        } else {
+            console.log("Three.js cargado correctamente.");
+        }
+
+        // Configuración de la escena
+        const escena = new THREE.Scene();
+        const camara = new THREE.PerspectiveCamera(75, window.innerWidth / (window.innerHeight * 0.7), 0.1, 1000);
+        const renderizador = new THREE.WebGLRenderer({ antialias: true });
+        renderizador.setSize(window.innerWidth, window.innerHeight * 0.7);
+        document.getElementById('contenedor').appendChild(renderizador.domElement);
+
+        // Controles de órbita optimizados para móvil
+        const controles = new THREE.OrbitControls(camara, renderizador.domElement);
+        controles.enableDamping = true;
+        controles.dampingFactor = 0.05;
+        controles.enableZoom = true; // Permitir zoom con pellizco
+        controles.enablePan = false; // Desactivar desplazamiento para evitar confusión
+        controles.minDistance = 2; // Distancia mínima para zoom
+        controles.maxDistance = 10; // Distancia máxima para zoom
+
+        // Iluminación
+        const luzAmbiente = new THREE.AmbientLight(0x404040);
+        escena.add(luzAmbiente);
+        const luzDireccional = new THREE.DirectionalLight(0xffffff, 0.5);
+        luzDireccional.position.set(5, 5, 5);
+        escena.add(luzDireccional);
+
+        // Piso
+        const geometriaPiso = new THREE.PlaneGeometry(20, 20);
+        const materialPiso = new THREE.MeshPhongMaterial({ 
+            color: 0xcccccc, 
+            transparent: true, 
+            opacity: 0.5 
+        });
+        const piso = new THREE.Mesh(geometriaPiso, materialPiso);
+        piso.rotation.x = -Math.PI / 2; // Rotar para que esté horizontal
+        piso.position.y = -0.1; // Justo debajo de las cajas
+        escena.add(piso);
+
+        // Geometría de la caja
+        const geometriaCaja = new THREE.BoxGeometry(1, 1, 1);
+        const materialPorDefecto = new THREE.MeshPhongMaterial({ 
+            color: 0x888888, 
+            transparent: true, 
+            opacity: 0.8 
+        });
+        const materialFosforescente = new THREE.MeshPhongMaterial({ 
+            color: 0x00ff00, 
+            transparent: true, 
+            opacity: 0.9 
+        });
+        const cajas = [];
+        const textos = [];
+        const mensajes = []; // Para los mensajes de fila y rango
+
+        // Cargar la fuente para el texto 3D
+        const cargadorFuente = new THREE.FontLoader();
+        cargadorFuente.load('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/fonts/helvetiker_regular.typeface.json', (fuente) => {
+            // Configuración de las columnas (de atrás hacia adelante)
+            const columnas = [
+                // Grupo 1 (izquierda, X = -1)
+                { etiquetas: ['A17', 'A01', 'A19', 'A36', 'A35'], x: -1, z: 3 }, // Columna 1 (más atrás)
+                { etiquetas: ['C24', 'C22', 'A24', 'A22', 'A16', 'A18'], x: -1, z: 1 }, // Columna 2
+                { etiquetas: ['A30', 'A41', 'A13'], x: -1, z: -1 }, // Columna 3
+                // Grupo 2 (derecha, X = 1)
+                { etiquetas: ['A39', 'A08', 'A10', 'A03', 'A02'], x: 1, z: 4 }, // Columna 4 (más atrás)
+                { etiquetas: ['A15', 'B15', 'A05', 'A01', 'A23'], x: 1, z: 2 }, // Columna 5
+                { etiquetas: ['A45', 'A34', 'C16', 'A37'], x: 1, z: 0 }, // Columna 6
+                { etiquetas: ['A26', 'A25', 'A38'], x: 1, z: -2 }, // Columna 7 (más adelante)
+                // Grupo 3 (X = 3)
+                { etiquetas: ['A42', 'A21', 'A32', 'C25', 'C21'], x: 3, z: 5 }, // Columna 8
+                { etiquetas: ['A12', 'B1', 'B36', 'A09', 'A06', 'B5', 'A14'], x: 3, z: 3 }, // Columna 9
+                // Grupo 4 (X = 5)
+                { etiquetas: ['A11', 'A17', 'A40', 'B4', 'B3'], x: 5, z: 2 }, // Columna 10
+                { etiquetas: ['A20', 'C19', 'C20', 'A33'], x: 5, z: 0 } // Columna 11
+            ];
+
+            // Crear las cajas y el texto 3D
+            columnas.forEach((columna, indiceColumna) => {
+                columna.etiquetas.forEach((etiqueta, indice) => {
+                    // Crear la caja
+                    const caja = new THREE.Mesh(geometriaCaja, materialPorDefecto.clone());
+                    caja.position.set(columna.x, indice + 0.5, columna.z);
+                    caja.userData = { 
+                        etiqueta: etiqueta, 
+                        materialBase: materialPorDefecto.clone(), 
+                        materialFosforescente: materialFosforescente.clone(),
+                        fila: indiceColumna + 1, // Número de fila (columna)
+                        rango: indice + 1 // Posición en la pila (de abajo hacia arriba)
+                    };
+                    escena.add(caja);
+                    cajas.push(caja);
+
+                    // Crear el texto 3D
+                    const geometriaTexto = new THREE.TextGeometry(etiqueta, {
+                        font: fuente,
+                        size: 0.2,
+                        height: 0.01
+                    });
+                    const materialTexto = new THREE.MeshBasicMaterial({ color: 0xffff00 }); // Amarillo por defecto
+                    const texto = new THREE.Mesh(geometriaTexto, materialTexto);
+                    
+                    // Centrar el texto dentro de la caja
+                    geometriaTexto.computeBoundingBox();
+                    const centroTexto = geometriaTexto.boundingBox.getCenter(new THREE.Vector3());
+                    texto.position.set(
+                        columna.x - centroTexto.x,
+                        indice + 0.5 - centroTexto.y,
+                        columna.z - centroTexto.z
+                    );
+                    texto.userData = { etiqueta: etiqueta, materialOriginal: materialTexto.clone() };
+                    escena.add(texto);
+                    textos.push(texto);
+                });
+            });
+
+            // Posición inicial de la cámara optimizada para móvil
+            camara.position.set(5, 5, 5); // Ajustada para ver las nuevas columnas
+            camara.lookAt(0, 1, 0);
+
+            // Bucle de animación
+            function animar() {
+                requestAnimationFrame(animar);
+                controles.update();
+                renderizador.render(escena, camara);
+            }
+            animar();
+
+            // Funcionalidad de búsqueda
+            const entradaBusqueda = document.getElementById('entradaBusqueda');
+            const botonBusqueda = document.getElementById('botonBusqueda');
+
+            function resaltarCaja() {
+                const terminoBusqueda = entradaBusqueda.value.trim().toUpperCase();
+                console.log("Buscando caja:", terminoBusqueda);
+
+                // Limpiar mensajes anteriores
+                mensajes.forEach(mensaje => escena.remove(mensaje));
+                mensajes.length = 0;
+
+                cajas.forEach(caja => {
+                    if (caja.userData.etiqueta === terminoBusqueda) {
+                        caja.material = caja.userData.materialFosforescente;
+
+                        // Crear mensaje de fila y rango
+                        const mensajeTexto = `Fila: ${caja.userData.fila}, Rango: ${caja.userData.rango}`;
+                        const geometriaMensaje = new THREE.TextGeometry(mensajeTexto, {
+                            font: fuente,
+                            size: 0.15,
+                            height: 0.01
+                        });
+                        const materialMensaje = new THREE.MeshBasicMaterial({ color: 0xff0000 }); // Rojo para el mensaje
+                        const mensaje = new THREE.Mesh(geometriaMensaje, materialMensaje);
+                        
+                        // Posicionar el mensaje al lado de la caja
+                        geometriaMensaje.computeBoundingBox();
+                        const centroMensaje = geometriaMensaje.boundingBox.getCenter(new THREE.Vector3());
+                        mensaje.position.set(
+                            caja.position.x + 1.5 - centroMensaje.x, // A la derecha de la caja
+                            caja.position.y - centroMensaje.y,
+                            caja.position.z - centroMensaje.z
+                        );
+                        escena.add(mensaje);
+                        mensajes.push(mensaje);
+                    } else {
+                        caja.material = caja.userData.materialBase;
+                    }
+                });
+
+                textos.forEach(texto => {
+                    if (texto.userData.etiqueta === terminoBusqueda) {
+                        texto.material.color.set(0xffffff); // Blanco para el texto resaltado
+                    } else {
+                        texto.material.color.set(0xffff00); // Amarillo para el texto no resaltado
+                    }
+                });
+            }
+
+            botonBusqueda.addEventListener('click', resaltarCaja);
+            entradaBusqueda.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') resaltarCaja();
+            });
+
+            // Manejar el redimensionamiento de la ventana
+            window.addEventListener('resize', () => {
+                camara.aspect = window.innerWidth / (window.innerHeight * 0.7);
+                camara.updateProjectionMatrix();
+                renderizador.setSize(window.innerWidth, window.innerHeight * 0.7);
+            });
+
+            console.log("Escena configurada. Si no ves nada, revisa la consola para errores.");
+        });
+    </script>
+</body>
+</html>
