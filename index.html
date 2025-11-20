@@ -63,6 +63,29 @@
             transition: opacity 1s ease-in-out;
             background-size: cover;
             background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
         }
 
         .screen.active {
@@ -71,7 +94,7 @@
 
         /* Estilo para la pantalla de Introducción */
         #intro-screen {
-            background: linear-gradient(135deg, #F5F1E8 0%, #E8DCC8 50%, #F5F1E8 100%);
+            background: transparent;
             position: relative;
             overflow: hidden;
         }
@@ -81,9 +104,9 @@
             padding: 60px 50px;
             max-width: 700px;
             border: 3px solid var(--color-secondary);
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.92);
             position: relative;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
             border-radius: 2px;
         }
 
@@ -162,7 +185,7 @@
 
         /* Estilo para la pantalla principal (Main) */
         #main-screen {
-            background: linear-gradient(135deg, #F5F1E8 0%, #E8DCC8 100%);
+            background: transparent;
             position: relative;
         }
 
@@ -177,13 +200,14 @@
                 radial-gradient(circle at 20% 50%, rgba(27, 94, 63, 0.02) 0%, transparent 50%),
                 radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.02) 0%, transparent 50%);
             pointer-events: none;
+            z-index: 1;
         }
 
         .main-content {
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.95);
             padding: 60px 50px;
             border-radius: 0;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             max-width: 600px;
             border: 3px solid var(--color-secondary);
             position: relative;
@@ -533,6 +557,11 @@
     <span style="display:none;" id="icon-whatsapp">&#x2705;</span>
     <span style="display:none;" id="icon-email">&#x1F4E7;</span>
 
+    <video class="video-background" autoplay muted loop playsinline>
+        <source src="https://raw.githubusercontent.com/cartasinteractivas-jpg/comovivirsano/main/Como.mp4" type="video/mp4">
+        Tu navegador no soporta videos HTML5.
+    </video>
+
     <div id="intro-screen" class="screen active">
         <div class="intro-content">
             <h1 class="title">CÓMO VIVIR SANO</h1>
@@ -651,4 +680,5 @@
     </script>
 </body>
 </html>
+
 
