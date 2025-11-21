@@ -6,6 +6,7 @@
     <title>CÓMO VIVIR SANO - Manual de las Leyes Naturales</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cormorant+Garamond:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
     
     <style>
         /* Colores inspirados en el PDF: Verde profundo y Dorado elegante */
@@ -627,7 +628,7 @@
                 <li>✅ Dos PDF del manual <strong>CÓMO VIVIR SANO</strong> (Tomo 1 y 2) en formato digital.</li>
                 <li>✅ Enlace directo al <strong>libro virtual interactivo</strong> (basado en el video, para consulta).</li>
             </ul>
-            <a href="https://link.de.pago/20soles" id="payment-link" class="btn primary-btn" target="_blank">IR AL ENLACE DE PAGO</a>
+            <a href="https://express.culqi.com/pago/BF72EDA5A6" id="payment-link" class="btn primary-btn" target="_blank">IR AL ENLACE DE PAGO</a>
             <p class="small-text" style="color: var(--color-success); font-weight: bold; text-align: center;">El acceso será enviado inmediatamente a su correo y WhatsApp.</p>
         </div>
     </div>
@@ -667,6 +668,26 @@
                 openModal('registration-modal');
             });
 
+            // --- Inicializar EmailJS ---
+            emailjs.init('MUEtHrL2rwdVOLG9-');
+
+            // --- Función para enviar notificación por correo electrónico ---
+            const sendPaymentNotification = async (clientEmail, clientPhone) => {
+                try {
+                    const response = await emailjs.send('gmail', 'template_h2y03p6', {
+                        to_email: 'dafon1981@gmail.com',
+                        client_email: clientEmail,
+                        client_phone: clientPhone,
+                        current_date: new Date().toLocaleString('es-ES')
+                    });
+                    console.log('Notificación enviada exitosamente:', response);
+                    alert('¡Registro completado! Revisa tu Yape para realizar el pago.');
+                } catch (error) {
+                    console.error('Error al enviar la notificación:', error);
+                    alert('Hubo un error al procesar tu registro. Por favor, intenta de nuevo.');
+                }
+            };
+
             // --- Lógica del Formulario de Registro ---
             registrationForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -683,15 +704,18 @@
                 // Abre el modal de pago
                 openModal('payment-modal');
 
-                // Generar un enlace de pago (SIMULADO)
-                // En un entorno real, también podrías usar el número de WhatsApp para personalizar el enlace de pago
-                const mockPaymentLink = `https://link-de-pago-seguro.com/pay-20soles?email=${encodeURIComponent(clientEmail)}&phone=${encodeURIComponent(clientPhone)}`;
-                document.getElementById('payment-link').href = mockPaymentLink;
+                    // Enviar notificación por correo electrónico
+                sendPaymentNotification(clientEmail, clientPhone);
+
+                // Actualizar el enlace de pago con los datos del cliente
+                const paymentLink = `https://express.culqi.com/pago/BF72EDA5A6?email=${encodeURIComponent(clientEmail)}&phone=${encodeURIComponent(clientPhone)}`;
+                document.getElementById('payment-link').href = paymentLink;
             });
         });
     </script>
 </body>
 </html>
+
 
 
 
