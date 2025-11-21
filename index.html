@@ -4,576 +4,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CÓMO VIVIR SANO - Manual de las Leyes Naturales</title>
-    
+   
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cormorant+Garamond:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
-    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+   
     <style>
-        /* Colores inspirados en el PDF: Verde profundo y Dorado elegante */
         :root {
-            --color-primary: #1B5E3F; /* Verde Profundo del PDF */
-            --color-secondary: #D4AF37; /* Dorado Elegante del PDF */
-            --color-background-light: #F5F1E8; /* Papel envejecido */
+            --color-primary: #1B5E3F;
+            --color-secondary: #D4AF37;
+            --color-background-light: #F5F1E8;
             --color-text-dark: #2c2c2c;
-            --color-accent-orange: #C68642; /* Naranja cálido complementario */
             --color-success: #0C8000;
             --color-whatsapp: #25D366;
             --color-border-light: #E8DCC8;
         }
-
-        * {
-            box-sizing: border-box;
-        }
-
+        * { box-sizing: border-box; margin:0; padding:0; }
         body {
             font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin: 0; padding: 0;
             min-height: 100vh;
             background-color: var(--color-background-light);
             color: var(--color-text-dark);
             overflow: hidden;
-            background-image: 
-                repeating-linear-gradient(
-                    90deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(212, 175, 55, 0.03) 2px,
-                    rgba(212, 175, 55, 0.03) 4px
-                ),
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(212, 175, 55, 0.03) 2px,
-                    rgba(212, 175, 55, 0.03) 4px
-                );
+            background-image:
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(212,175,55,0.03) 2px, rgba(212,175,55,0.03) 4px),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(212,175,55,0.03) 2px, rgba(212,175,55,0.03) 4px);
         }
 
-        /* --- Pantallas Principales --- */
+        /* Pantallas */
         .screen {
-            width: 100%;
-            height: 100vh;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            transition: opacity 1s ease-in-out;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            overflow: hidden;
+            width: 100%; height: 100vh;
+            display: none; justify-content: center; align-items: center;
+            position: relative; overflow: hidden;
         }
-
-        .screen::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-            z-index: 1;
-        }
-
+        .screen.active { display: flex; }
         .video-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 0;
+            position: absolute; top:0; left:0; width:100%; height:100%;
+            object-fit: cover; z-index:0;
+        }
+        .screen::before {
+            content:''; position:absolute; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.4); z-index:1;
         }
 
-        .screen.active {
-            display: flex;
+        /* Intro */
+        #intro-screen .intro-content {
+            z-index:10; padding:60px 50px; max-width:700px;
+            background:rgba(255,255,255,0.95); border:3px solid var(--color-secondary);
+            position:relative; box-shadow:0 15px 40px rgba(0,0,0,0.25);
         }
+        .intro-content::before { content:''; position:absolute; top:-8px; left:-8px; width:30px; height:30px; border:2px solid var(--color-secondary); border-right:none; border-bottom:none; }
+        .intro-content::after  { content:''; position:absolute; bottom:-8px; right:-8px; width:30px; height:30px; border:2px solid var(--color-secondary); border-left:none; border-top:none; }
+        .title { font-family:'Playfair Display',serif; font-size:4.5em; color:var(--color-primary); margin:0 0 10px; letter-spacing:2px; }
+        .subtitle { font-size:1.3em; color:var(--color-secondary); font-weight:700; margin-top:15px; }
+        .divider { width:60px; height:2px; background:linear-gradient(to right,transparent,var(--color-secondary),transparent); margin:20px auto; }
 
-        /* Estilo para la pantalla de Introducción */
-        #intro-screen {
-            background: transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .intro-content {
-            z-index: 10;
-            padding: 60px 50px;
-            max-width: 700px;
-            border: 3px solid var(--color-secondary);
-            background: rgba(255, 255, 255, 0.92);
-            position: relative;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-            border-radius: 2px;
-        }
-
-        /* Decoraciones ornamentales en las esquinas */
-        .intro-content::before,
-        .intro-content::after {
-            content: '';
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            border: 2px solid var(--color-secondary);
-        }
-
-        .intro-content::before {
-            top: -8px;
-            left: -8px;
-            border-right: none;
-            border-bottom: none;
-        }
-
-        .intro-content::after {
-            bottom: -8px;
-            right: -8px;
-            border-left: none;
-            border-top: none;
-        }
-
-        .title {
-            font-family: 'Playfair Display', serif;
-            font-size: 4.5em;
-            font-weight: 700;
-            margin: 0 0 10px 0;
-            color: var(--color-primary);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.08);
-            letter-spacing: 2px;
-        }
-
-        .subtitle {
-            font-size: 1.3em;
-            margin-top: 15px;
-            color: var(--color-secondary);
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .intro-content > p:last-child {
-            font-size: 1.1em;
-            color: var(--color-primary);
-            font-style: italic;
-            margin-top: 20px;
-            margin-bottom: 0;
-        }
-
-        /* Línea decorativa */
-        .intro-content::before {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 2px;
-            background: linear-gradient(to right, transparent, var(--color-secondary), transparent);
-            margin: 15px auto;
-        }
-
-        /* Transición */
-        .transition-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--color-text-dark);
-            opacity: 0;
-            transition: opacity 2s ease-in-out;
-            z-index: 20;
-        }
-
-        /* Estilo para la pantalla principal (Main) */
-        #main-screen {
-            background: transparent;
-            position: relative;
-        }
-
-        #main-screen::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(27, 94, 63, 0.02) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.02) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 1;
-        }
-
+        /* Main */
         .main-content {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 60px 50px;
-            border-radius: 0;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
-            border: 3px solid var(--color-secondary);
-            position: relative;
-            z-index: 10;
+            z-index:10; background:rgba(255,255,255,0.95); padding:60px 50px;
+            max-width:600px; border:3px solid var(--color-secondary); position:relative;
+            box-shadow:0 20px 50px rgba(0,0,0,0.3);
         }
+        .main-content::before { content:''; position:absolute; top:-12px; left:-12px; width:40px; height:40px; border:2px solid var(--color-secondary); border-right:none; border-bottom:none; }
+        .main-content::after  { content:''; position:absolute; bottom:-12px; right:-12px; width:40px; height:40px; border:2px solid var(--color-secondary); border-left:none; border-top:none; }
+        .book-image { width:280px; margin-bottom:30px; filter:drop-shadow(0 10px 30px rgba(0,0,0,0.3)); }
+        .quote-box { font-family:'Cormorant Garamond',serif; font-size:1.9em; font-style:italic; color:var(--color-primary); margin-bottom:35px; padding:25px 30px; border-left:4px solid var(--color-secondary); border-right:4px solid var(--color-secondary); background:linear-gradient(to right,rgba(212,175,55,0.05),transparent,rgba(212,175,55,0.05)); line-height:1.6; }
+        .quote-box::before { content:'"'; font-size:3em; color:var(--color-secondary); opacity:0.3; float:left; margin-right:10px; }
 
-        /* Marco decorativo principal */
-        .main-content::before,
-        .main-content::after {
-            content: '';
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--color-secondary);
-        }
-
-        .main-content::before {
-            top: -12px;
-            left: -12px;
-            border-right: none;
-            border-bottom: none;
-        }
-
-        .main-content::after {
-            bottom: -12px;
-            right: -12px;
-            border-left: none;
-            border-top: none;
-        }
-
-        .book-image {
-            width: 280px;
-            height: auto;
-            margin-bottom: 30px;
-            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
-        }
-
-        .quote-box {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.9em;
-            font-style: italic;
-            color: var(--color-primary);
-            margin-bottom: 35px;
-            padding: 25px 30px;
-            border-left: 4px solid var(--color-secondary);
-            border-right: 4px solid var(--color-secondary);
-            background: linear-gradient(to right, rgba(212, 175, 55, 0.05), transparent, rgba(212, 175, 55, 0.05));
-            line-height: 1.6;
-        }
-
-        .quote-box::before {
-            content: '"';
-            font-size: 3em;
-            color: var(--color-secondary);
-            opacity: 0.3;
-            position: relative;
-            top: 10px;
-        }
-
-        .small-text {
-            color: var(--color-text-dark);
-            margin-top: 20px;
-            font-style: italic;
-            font-size: 0.95em;
-            line-height: 1.5;
-        }
-
-        /* --- Botones y Formularios --- */
+        /* Botones */
         .btn {
-            padding: 16px 35px;
-            border: none;
-            border-radius: 0;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 25px;
-            letter-spacing: 1.5px;
-            font-size: 1em;
-            position: relative;
-            overflow: hidden;
+            padding:16px 35px; border:none; font-weight:bold; cursor:pointer;
+            text-transform:uppercase; letter-spacing:1.5px; margin-top:25px;
+            display:inline-block; text-decoration:none; position:relative; overflow:hidden;
+            transition:all .3s;
         }
+        .primary-btn { background:var(--color-secondary); color:var(--color-primary); box-shadow:0 8px 0 rgba(212,175,55,0.4), 0 12px 20px rgba(0,0,0,0.15); }
+        .primary-btn:hover { background:#E8C547; transform:translateY(-3px); }
+        .secondary-btn { background:var(--color-primary); color:white; box-shadow:0 8px 0 rgba(27,94,63,0.6), 0 12px 20px rgba(0,0,0,0.15); }
+        .secondary-btn:hover { background:#0F3D27; transform:translateY(-3px); }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: left 0.3s ease;
-            z-index: -1;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .primary-btn {
-            background-color: var(--color-secondary);
-            color: var(--color-primary);
-            box-shadow: 0 8px 0 rgba(212, 175, 55, 0.4), 0 12px 20px rgba(0, 0, 0, 0.15);
-            font-weight: 700;
-        }
-
-        .primary-btn:hover {
-            background-color: #E8C547;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 0 rgba(212, 175, 55, 0.5), 0 15px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .secondary-btn {
-            background-color: var(--color-primary);
-            color: white;
-            box-shadow: 0 8px 0 rgba(27, 94, 63, 0.6), 0 12px 20px rgba(0, 0, 0, 0.15);
-            font-weight: 700;
-        }
-
-        .secondary-btn:hover {
-            background-color: #0F3D27;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 0 rgba(27, 94, 63, 0.7), 0 15px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        /* --- Modales (Cuadros Flotantes) --- */
+        /* Modales */
         .modal {
-            display: none;
-            position: fixed;
-            z-index: 100;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(27, 94, 63, 0.8);
-            animation: fadeIn 0.3s ease;
+            display:none; opacity:0; position:fixed; z-index:1000; left:0; top:0;
+            width:100%; height:100%; background:rgba(27,94,63,0.9);
+            transition:opacity .4s ease; pointer-events:none;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .modal.active {
+            display:block; opacity:1; pointer-events:auto;
         }
-
         .modal-content {
-            background: linear-gradient(135deg, #FFFFFF 0%, #F5F1E8 100%);
-            margin: 8% auto;
-            padding: 50px;
-            width: 85%;
-            max-width: 600px;
-            border-radius: 0;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            border: 3px solid var(--color-secondary);
-            animation: slideDown 0.4s ease;
+            background:linear-gradient(135deg,#FFF,#F5F1E8); margin:8% auto;
+            padding:50px; max-width:600px; width:90%; position:relative;
+            border:3px solid var(--color-secondary); box-shadow:0 20px 60px rgba(0,0,0,0.4);
         }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        /* Esquinas decorativas del modal */
-        .modal-content::before,
-        .modal-content::after {
-            content: '';
-            position: absolute;
-            width: 35px;
-            height: 35px;
-            border: 2px solid var(--color-secondary);
-        }
-
-        .modal-content::before {
-            top: -10px;
-            left: -10px;
-            border-right: none;
-            border-bottom: none;
-        }
-
-        .modal-content::after {
-            bottom: -10px;
-            right: -10px;
-            border-left: none;
-            border-top: none;
-        }
-
+        .modal-content::before { content:''; position:absolute; top:-10px; left:-10px; width:35px; height:35px; border:2px solid var(--color-secondary); border-right:none; border-bottom:none; }
+        .modal-content::after  { content:''; position:absolute; bottom:-10px; right:-10px; width:35px; height:35px; border:2px solid var(--color-secondary); border-left:none; border-top:none; }
         .modal-close {
-            color: var(--color-secondary);
-            font-size: 42px;
-            font-weight: bold;
-            background: none;
-            border: none;
-            cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            transition: all 0.2s;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position:absolute; top:10px; right:20px; background:none; border:none;
+            font-size:42px; color:var(--color-secondary); cursor:pointer;
         }
+        .modal-close:hover { color:var(--color-primary); transform:rotate(90deg); }
 
-        .modal-close:hover {
-            color: var(--color-primary);
-            transform: rotate(90deg);
-        }
-
-        #registration-modal h2,
-        #payment-modal h2 {
-            color: var(--color-primary);
-            font-family: 'Playfair Display', serif;
-            margin-bottom: 30px;
-            font-size: 1.8em;
-            letter-spacing: 1px;
-        }
-
+        /* Formulario */
         #registration-form input {
-            width: 100%;
-            padding: 14px 16px;
-            margin: 12px 0;
-            border: 2px solid var(--color-secondary);
-            border-radius: 0;
-            box-sizing: border-box;
-            font-size: 1em;
-            font-family: 'Roboto', sans-serif;
-            background: rgba(255, 255, 255, 0.9);
-            transition: all 0.3s ease;
+            width:100%; padding:14px 16px; margin:12px 0;
+            border:2px solid var(--color-secondary); background:rgba(255,255,255,0.9);
+            font-size:1em; transition:all .3s;
         }
-
-        #registration-form input:focus {
-            outline: none;
-            border-color: var(--color-primary);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(27, 94, 63, 0.1);
-        }
-
-        #registration-form input::placeholder {
-            color: #999;
-        }
-
+        #registration-form input:focus { outline:none; border-color:var(--color-primary); box-shadow:0 0 0 3px rgba(27,94,63,0.1); }
         .delivery-note {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(27, 94, 63, 0.05) 100%);
-            color: var(--color-text-dark);
-            padding: 18px 20px;
-            border-radius: 0;
-            margin: 25px 0 15px;
-            border: 2px dashed var(--color-secondary);
-            font-weight: 400;
-            text-align: left;
-            font-size: 0.95em;
-            line-height: 1.6;
+            background:linear-gradient(135deg,rgba(212,175,55,0.08),rgba(27,94,63,0.05));
+            padding:18px 20px; margin:25px 0 15px; border:2px dashed var(--color-secondary);
+            font-size:0.95em; line-height:1.6;
         }
-
-        .delivery-note strong {
-            color: var(--color-primary);
-            font-weight: 700;
-        }
-
-        .whatsapp-icon {
-            color: var(--color-whatsapp);
-            font-size: 1.3em;
-            margin-right: 8px;
-            font-weight: bold;
-        }
-
-        #payment-modal h2 {
-            color: var(--color-secondary);
-        }
-
-        .offer-description {
-            font-size: 1.15em;
-            margin: 25px 0;
-            color: var(--color-primary);
-            font-weight: 600;
-            line-height: 1.6;
-        }
-
-        #payment-modal ul {
-            list-style: none;
-            padding: 0;
-            text-align: left;
-            margin-bottom: 30px;
-        }
-
-        #payment-modal ul li {
-            background: linear-gradient(135deg, var(--color-primary) 0%, #0F3D27 100%);
-            color: white;
-            padding: 15px 18px;
-            margin-bottom: 12px;
-            border-radius: 0;
-            font-size: 1em;
-            border-left: 4px solid var(--color-secondary);
-            transition: all 0.3s ease;
-        }
-
-        #payment-modal ul li:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(27, 94, 63, 0.3);
-        }
-
-        /* Línea decorativa divisora */
-        .divider {
-            width: 60px;
-            height: 2px;
-            background: linear-gradient(to right, transparent, var(--color-secondary), transparent);
-            margin: 25px auto;
-        }
+        .whatsapp-icon { color:var(--color-whatsapp); font-size:1.3em; margin-right:8px; }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            .title {
-                font-size: 3em;
-            }
-
-            .subtitle {
-                font-size: 1.1em;
-            }
-
-            .main-content,
-            .intro-content {
-                padding: 40px 30px;
-                max-width: 90%;
-            }
-
-            .book-image {
-                width: 200px;
-            }
-
-            .quote-box {
-                font-size: 1.5em;
-                padding: 20px 25px;
-            }
-
-            .modal-content {
-                width: 90%;
-                padding: 35px 25px;
-            }
-
-            .btn {
-                padding: 14px 25px;
-                font-size: 0.95em;
-            }
+        @media (max-width:768px) {
+            .title { font-size:3em; }
+            .main-content, .intro-content { padding:40px 30px; }
+            .book-image { width:200px; }
+            .quote-box { font-size:1.5em; }
         }
     </style>
 </head>
 <body>
 
-    <span style="display:none;" id="icon-whatsapp">&#x2705;</span>
-    <span style="display:none;" id="icon-email">&#x1F4E7;</span>
-
     <video class="video-background" autoplay muted loop playsinline>
         <source src="https://raw.githubusercontent.com/cartasinteractivas-jpg/comovivirsano/main/Como.mp4" type="video/mp4">
-        Tu navegador no soporta videos HTML5.
     </video>
 
+    <!-- Pantalla Intro -->
     <div id="intro-screen" class="screen active">
         <div class="intro-content">
             <h1 class="title">CÓMO VIVIR SANO</h1>
@@ -581,147 +142,141 @@
             <p class="subtitle">UN MÉTODO DE VIDA BASADO EN LAS LEYES NATURALES</p>
             <p>[Una vida en armonía con la naturaleza.]</p>
         </div>
-        <div class="transition-overlay"></div>
     </div>
 
+    <!-- Pantalla Principal -->
     <div id="main-screen" class="screen">
         <div class="main-content">
-            <img src="https://raw.githubusercontent.com/cartasinteractivas-jpg/comovivirsano/main/libro.png" alt="Libro COMO VIVIR SANO" class="book-image">
+            <img src="https://raw.githubusercontent.com/cartasinteractivas-jpg/comovivirsano/main/libro.png" alt="Libro" class="book-image">
             <div class="quote-box">
                 <p>¿Y si la respuesta a la enfermedad estuviera en las leyes naturales?</p>
             </div>
             <button id="request-button" class="btn primary-btn">PEDIR MANUAL COMPLETO</button>
-            <p class="small-text">Adopta los principios de salud que han perdurado un siglo.</p>
+            <p style="margin-top:20px; font-style:italic;">Adopta los principios de salud que han perdurado un siglo.</p>
         </div>
     </div>
 
+    <!-- Modal Registro -->
     <div id="registration-modal" class="modal">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('registration-modal')">&times;</button>
+            <button class="modal-close" onclick="closeModal('registration-modal')">×</button>
             <h2>¡Tu Primer Paso Hacia el Bienestar!</h2>
             <div class="divider"></div>
             <form id="registration-form">
                 <input type="text" id="client-name" placeholder="Nombre Completo" required>
-                
                 <div class="delivery-note">
-                    <span class="whatsapp-icon">&#x2705;</span> ¡Importante! Enviaremos el enlace de pago y el material directamente a tu 
-                    <strong>Correo</strong> y <strong>WhatsApp</strong> para asegurar la entrega.
+                    Checkmark ¡Importante! Enviaremos el enlace de pago y el material directamente a tu <strong>Correo</strong> y <strong>WhatsApp</strong> para asegurar la entrega.
                 </div>
-                
                 <input type="email" id="client-email" placeholder="Correo Electrónico (Requerido)" required>
                 <input type="tel" id="client-phone" placeholder="Número de WhatsApp (Requerido)" required>
-                
                 <button type="submit" class="btn secondary-btn">REGISTRAR Y CONTINUAR</button>
             </form>
         </div>
     </div>
 
+    <!-- Modal Pago -->
     <div id="payment-modal" class="modal">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('payment-modal')">&times;</button>
-            <h2>¡Pago de 20 Soles! Accede a tu Material 📚</h2>
+            <button class="modal-close" onclick="closeModal('payment-modal')">×</button>
+            <h2>¡Pago de 20 Soles! Accede a tu Material</h2>
             <div class="divider"></div>
-            <p class="offer-description">
-                Obtén acceso completo a los dos tomos del manual "CÓMO VIVIR SANO" del Dr. Ivan A. Sabev, con métodos naturales probados durante un siglo.
+            <p style="font-size:1.15em; margin:25px 0; color:var(--color-primary); font-weight:600;">
+                Obtén acceso completo a los dos tomos del manual "CÓMO VIVIR SANO" del Dr. Ivan A. Sabev.
             </p>
-            <ul>
-                <li>✅ Dos PDF del manual <strong>CÓMO VIVIR SANO</strong> (Tomo 1 y 2) en formato digital.</li>
-                <li>✅ Enlace directo al <strong>libro virtual interactivo</strong> (basado en el video, para consulta).</li>
+            <ul style="text-align:left; list-style:none; padding:0; margin-bottom:30px;">
+                <li style="background:#1B5E3F; color:white; padding:15px; margin-bottom:12px; border-left:4px solid var(--color-secondary);">
+                    Checkmark Dos PDF del manual <strong>CÓMO VIVIR SANO</strong> (Tomo 1 y 2)
+                </li>
+                <li style="background:#1B5E3F; color:white; padding:15px; margin-bottom:12px; border-left:4px solid var(--color-secondary);">
+                    Checkmark Enlace directo al <strong>libro virtual interactivo</strong>
+                </li>
             </ul>
-            <a href="https://express.culqi.com/pago/BF72EDA5A6" id="payment-link" class="btn primary-btn" target="_blank">IR AL ENLACE DE PAGO</a>
-            <p class="small-text" style="color: var(--color-success); font-weight: bold; text-align: center;">El acceso será enviado inmediatamente a su correo y WhatsApp.</p>
+            <a href="#" id="payment-link" class="btn primary-btn" target="_blank">IR AL ENLACE DE PAGO</a>
+            <p style="color:var(--color-success); font-weight:bold; margin-top:20px;">
+                El acceso será enviado inmediatamente a tu correo y WhatsApp.
+            </p>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Elementos
             const introScreen = document.getElementById('intro-screen');
             const mainScreen = document.getElementById('main-screen');
-            const transitionOverlay = document.querySelector('.transition-overlay');
+            const transitionOverlay = document.createElement('div');
+            transitionOverlay.className = 'transition-overlay';
+            transitionOverlay.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;background:#000;opacity:0;transition:opacity 2s;z-index:20;';
+            introScreen.appendChild(transitionOverlay);
+
             const requestButton = document.getElementById('request-button');
-            const registrationModal = document.getElementById('registration-modal');
             const registrationForm = document.getElementById('registration-form');
 
-            // --- Funciones para Modales ---
+            // Funciones modal
             window.closeModal = (id) => {
-                document.getElementById(id).style.display = 'none';
+                const modal = document.getElementById(id);
+                if (modal) modal.classList.remove('active');
             };
-
             const openModal = (id) => {
-                document.getElementById(id).style.display = 'block';
+                const modal = document.getElementById(id);
+                if (modal) modal.classList.add('active');
             };
 
-            // --- Simulación de Transición de Video (00:00 - 00:29) ---
+            // Transición intro → principal
             setTimeout(() => {
-                // Inicia el 'fade out' del overlay (simulando la transición a negro)
-                transitionOverlay.style.opacity = 1;
-
+                transitionOverlay.style.opacity = '1';
                 setTimeout(() => {
-                    // Esconde la pantalla de intro y muestra la principal
                     introScreen.classList.remove('active');
                     mainScreen.classList.add('active');
-                }, 2000); // 2 segundos para la transición
-            }, 5000); // 5 segundos para que se vea la pantalla de intro antes de empezar
+                }, 2000);
+            }, 5000);
 
-            // --- Lógica del Botón "PEDIR LIBRO" ---
-            requestButton.addEventListener('click', () => {
-                openModal('registration-modal');
-            });
+            // Abrir registro
+            requestButton.addEventListener('click', () => openModal('registration-modal'));
 
-            // --- Inicializar EmailJS ---
+            // EmailJS
             emailjs.init('MUEtHrL2rwdVOLG9-');
 
-            // --- Función para enviar notificación por correo electrónico ---
-            const sendPaymentNotification = async (clientEmail, clientPhone) => {
-                try {
-                    const response = await emailjs.send('gmail', 'template_h2y03p6', {
-                        to_email: 'dafon1981@gmail.com',
-                        client_email: clientEmail,
-                        client_phone: clientPhone,
-                        current_date: new Date().toLocaleString('es-ES')
-                    });
-                    console.log('Notificación enviada exitosamente:', response);
-                    alert('¡Registro completado! Revisa tu Yape para realizar el pago.');
-                } catch (error) {
-                    console.error('Error al enviar la notificación:', error);
-                    alert('Hubo un error al procesar tu registro. Por favor, intenta de nuevo.');
-                }
-            };
-
-            // Variables globales para almacenar datos del cliente
             let currentClientEmail = '';
             let currentClientPhone = '';
 
-            // --- Lógica del Formulario de Registro ---
+            const sendNotification = async () => {
+                try {
+                    await emailjs.send('gmail', 'template_h2y03p6', {
+                        to_email: 'dafon1981@gmail.com',
+                        client_email: currentClientEmail,
+                        client_phone: currentClientPhone,
+                        current_date: new Date().toLocaleString('es-ES')
+                    });
+                } catch(e) { console.error(e); }
+            };
+
+            // Submit registro
             registrationForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                
-                // Recoger datos (para simulación/registro)
-                currentClientEmail = document.getElementById('client-email').value;
-                currentClientPhone = document.getElementById('client-phone').value;
-                
-                console.log(`[REGISTRO EXITOSO] Cliente listo para pagar. Email: ${currentClientEmail}, WhatsApp: ${currentClientPhone}`);
-                
-                // Cierra el modal de registro
-                closeModal('registration-modal');
 
-                // Abre el modal de pago
+                const name = document.getElementById('client-name').value.trim();
+                currentClientEmail = document.getElementById('client-email').value.trim();
+                currentClientPhone = document.getElementById('client-phone').value.trim();
+
+                if (!name || !currentClientEmail || !currentClientPhone) {
+                    alert('Por favor completa todos los campos');
+                    return;
+                }
+
+                closeModal('registration-modal');
                 openModal('payment-modal');
 
-                // Actualizar el enlace de pago con los datos del cliente
-                const paymentLink = `https://express.culqi.com/pago/BF72EDA5A6?email=${encodeURIComponent(currentClientEmail)}&phone=${encodeURIComponent(currentClientPhone)}`;
-                document.getElementById('payment-link').href = paymentLink;
+                const link = `https://express.culqi.com/pago/BF72EDA5A6?email=${encodeURIComponent(currentClientEmail)}&phone=${encodeURIComponent(currentClientPhone)}`;
+                document.getElementById('payment-link').href = link;
             });
 
-            // --- Lógica del Botón de Pago ---
+            // Click en botón de pago
             document.getElementById('payment-link').addEventListener('click', (e) => {
                 e.preventDefault();
-                // Enviar notificación por correo electrónico
-                sendPaymentNotification(currentClientEmail, currentClientPhone);
-                // Redirigir a Culqi después de enviar el correo
+                sendNotification();
                 setTimeout(() => {
-                    window.location.href = `https://express.culqi.com/pago/BF72EDA5A6?email=${encodeURIComponent(currentClientEmail)}&phone=${encodeURIComponent(currentClientPhone)}`;
-                }, 500);
+                    window.open(document.getElementById('payment-link').href, '_blank');
+                }, 600);
             });
         });
     </script>
