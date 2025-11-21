@@ -1,731 +1,729 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CÓMO VIVIR SANO - Manual de las Leyes Naturales</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cormorant+Garamond:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
-    
-    <style>
-        /* Colores inspirados en el PDF: Verde profundo y Dorado elegante */
-        :root {
-            --color-primary: #1B5E3F; /* Verde Profundo del PDF */
-            --color-secondary: #D4AF37; /* Dorado Elegante del PDF */
-            --color-background-light: #F5F1E8; /* Papel envejecido */
-            --color-text-dark: #2c2c2c;
-            --color-accent-orange: #C68642; /* Naranja cálido complementario */
-            --color-success: #0C8000;
-            --color-whatsapp: #25D366;
-            --color-border-light: #E8DCC8;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CÓMO VIVIR SANO - Manual de las Leyes Naturales</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cormorant+Garamond:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
+    
+    <style>
+        /* Colores inspirados en el PDF: Verde profundo y Dorado elegante */
+        :root {
+            --color-primary: #1B5E3F; /* Verde Profundo del PDF */
+            --color-secondary: #D4AF37; /* Dorado Elegante del PDF */
+            --color-background-light: #F5F1E8; /* Papel envejecido */
+            --color-text-dark: #2c2c2c;
+            --color-accent-orange: #C68642; /* Naranja cálido complementario */
+            --color-success: #0C8000;
+            --color-whatsapp: #25D366;
+            --color-border-light: #E8DCC8;
+        }
 
-        * {
-            box-sizing: border-box;
-        }
+        * {
+            box-sizing: border-box;
+        }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: var(--color-background-light);
-            color: var(--color-text-dark);
-            overflow: hidden;
-            background-image: 
-                repeating-linear-gradient(
-                    90deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(212, 175, 55, 0.03) 2px,
-                    rgba(212, 175, 55, 0.03) 4px
-                ),
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(212, 175, 55, 0.03) 2px,
-                    rgba(212, 175, 55, 0.03) 4px
-                );
-        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--color-background-light);
+            color: var(--color-text-dark);
+            overflow: hidden;
+            background-image: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(212, 175, 55, 0.03) 2px,
+                    rgba(212, 175, 55, 0.03) 4px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(212, 175, 55, 0.03) 2px,
+                    rgba(212, 175, 55, 0.03) 4px
+                );
+        }
 
-        /* --- Pantallas Principales --- */
-        .screen {
-            width: 100%;
-            height: 100vh;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            transition: opacity 1s ease-in-out;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            overflow: hidden;
-        }
+        /* --- Pantallas Principales --- */
+        .screen {
+            width: 100%;
+            height: 100vh;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-        .screen::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-            z-index: 1;
-        }
+        .screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
 
-        .video-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 0;
-        }
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
 
-        .screen.active {
-            display: flex;
-        }
+        .screen.active {
+            display: flex;
+        }
 
-        /* Estilo para la pantalla de Introducción */
-        #intro-screen {
-            background: transparent;
-            position: relative;
-            overflow: hidden;
-        }
+        /* Estilo para la pantalla de Introducción */
+        #intro-screen {
+            background: transparent;
+            position: relative;
+            overflow: hidden;
+        }
 
-        .intro-content {
-            z-index: 10;
-            padding: 60px 50px;
-            max-width: 700px;
-            border: 3px solid var(--color-secondary);
-            background: rgba(255, 255, 255, 0.92);
-            position: relative;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-            border-radius: 2px;
-        }
+        .intro-content {
+            z-index: 10;
+            padding: 60px 50px;
+            max-width: 700px;
+            border: 3px solid var(--color-secondary);
+            background: rgba(255, 255, 255, 0.92);
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            border-radius: 2px;
+        }
 
-        /* Decoraciones ornamentales en las esquinas */
-        .intro-content::before,
-        .intro-content::after {
-            content: '';
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            border: 2px solid var(--color-secondary);
-        }
+        /* Decoraciones ornamentales en las esquinas */
+        .intro-content::before,
+        .intro-content::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--color-secondary);
+        }
 
-        .intro-content::before {
-            top: -8px;
-            left: -8px;
-            border-right: none;
-            border-bottom: none;
-        }
+        .intro-content::before {
+            top: -8px;
+            left: -8px;
+            border-right: none;
+            border-bottom: none;
+        }
 
-        .intro-content::after {
-            bottom: -8px;
-            right: -8px;
-            border-left: none;
-            border-top: none;
-        }
+        .intro-content::after {
+            bottom: -8px;
+            right: -8px;
+            border-left: none;
+            border-top: none;
+        }
 
-        .title {
-            font-family: 'Playfair Display', serif;
-            font-size: 4.5em;
-            font-weight: 700;
-            margin: 0 0 10px 0;
-            color: var(--color-primary);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.08);
-            letter-spacing: 2px;
-        }
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5em;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            color: var(--color-primary);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.08);
+            letter-spacing: 2px;
+        }
 
-        .subtitle {
-            font-size: 1.3em;
-            margin-top: 15px;
-            color: var(--color-secondary);
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
+        .subtitle {
+            font-size: 1.3em;
+            margin-top: 15px;
+            color: var(--color-secondary);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
 
-        .intro-content > p:last-child {
-            font-size: 1.1em;
-            color: var(--color-primary);
-            font-style: italic;
-            margin-top: 20px;
-            margin-bottom: 0;
-        }
+        .intro-content > p:last-child {
+            font-size: 1.1em;
+            color: var(--color-primary);
+            font-style: italic;
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
 
-        /* Línea decorativa */
-        .intro-content .divider {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 2px;
-            background: linear-gradient(to right, transparent, var(--color-secondary), transparent);
-            margin: 15px auto;
-        }
+        /* Línea decorativa */
+        .intro-content::before {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--color-secondary), transparent);
+            margin: 15px auto;
+        }
 
-        /* Transición */
-        .transition-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--color-text-dark);
-            opacity: 0;
-            transition: opacity 2s ease-in-out;
-            z-index: 20;
-        }
+        /* Transición */
+        .transition-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-text-dark);
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+            z-index: 20;
+        }
 
-        /* Estilo para la pantalla principal (Main) */
-        #main-screen {
-            background: transparent;
-            position: relative;
-        }
+        /* Estilo para la pantalla principal (Main) */
+        #main-screen {
+            background: transparent;
+            position: relative;
+        }
 
-        #main-screen::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(27, 94, 63, 0.02) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.02) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 1;
-        }
+        #main-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(27, 94, 63, 0.02) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.02) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+        }
 
-        .main-content {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 60px 50px;
-            border-radius: 0;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
-            border: 3px solid var(--color-secondary);
-            position: relative;
-            z-index: 10;
-        }
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 60px 50px;
+            border-radius: 0;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            border: 3px solid var(--color-secondary);
+            position: relative;
+            z-index: 10;
+        }
 
-        /* Marco decorativo principal */
-        .main-content::before,
-        .main-content::after {
-            content: '';
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--color-secondary);
-        }
+        /* Marco decorativo principal */
+        .main-content::before,
+        .main-content::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--color-secondary);
+        }
 
-        .main-content::before {
-            top: -12px;
-            left: -12px;
-            border-right: none;
-            border-bottom: none;
-        }
+        .main-content::before {
+            top: -12px;
+            left: -12px;
+            border-right: none;
+            border-bottom: none;
+        }
 
-        .main-content::after {
-            bottom: -12px;
-            right: -12px;
-            border-left: none;
-            border-top: none;
-        }
+        .main-content::after {
+            bottom: -12px;
+            right: -12px;
+            border-left: none;
+            border-top: none;
+        }
 
-        .book-image {
-            width: 280px;
-            height: auto;
-            margin-bottom: 30px;
-            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
-        }
+        .book-image {
+            width: 280px;
+            height: auto;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+        }
 
-        .quote-box {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.9em;
-            font-style: italic;
-            color: var(--color-primary);
-            margin-bottom: 35px;
-            padding: 25px 30px;
-            border-left: 4px solid var(--color-secondary);
-            border-right: 4px solid var(--color-secondary);
-            background: linear-gradient(to right, rgba(212, 175, 55, 0.05), transparent, rgba(212, 175, 55, 0.05));
-            line-height: 1.6;
-        }
+        .quote-box {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.9em;
+            font-style: italic;
+            color: var(--color-primary);
+            margin-bottom: 35px;
+            padding: 25px 30px;
+            border-left: 4px solid var(--color-secondary);
+            border-right: 4px solid var(--color-secondary);
+            background: linear-gradient(to right, rgba(212, 175, 55, 0.05), transparent, rgba(212, 175, 55, 0.05));
+            line-height: 1.6;
+        }
 
-        .quote-box::before {
-            content: '"';
-            font-size: 3em;
-            color: var(--color-secondary);
-            opacity: 0.3;
-            position: relative;
-            top: 10px;
-        }
+        .quote-box::before {
+            content: '"';
+            font-size: 3em;
+            color: var(--color-secondary);
+            opacity: 0.3;
+            position: relative;
+            top: 10px;
+        }
 
-        .small-text {
-            color: var(--color-text-dark);
-            margin-top: 20px;
-            font-style: italic;
-            font-size: 0.95em;
-            line-height: 1.5;
-        }
+        .small-text {
+            color: var(--color-text-dark);
+            margin-top: 20px;
+            font-style: italic;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
 
-        /* --- Botones y Formularios --- */
-        .btn {
-            padding: 16px 35px;
-            border: none;
-            border-radius: 0;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 25px;
-            letter-spacing: 1.5px;
-            font-size: 1em;
-            position: relative;
-            overflow: hidden;
-        }
+        /* --- Botones y Formularios --- */
+        .btn {
+            padding: 16px 35px;
+            border: none;
+            border-radius: 0;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 25px;
+            letter-spacing: 1.5px;
+            font-size: 1em;
+            position: relative;
+            overflow: hidden;
+        }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: left 0.3s ease;
-            z-index: -1;
-        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
 
-        .btn:hover::before {
-            left: 100%;
-        }
+        .btn:hover::before {
+            left: 100%;
+        }
 
-        .primary-btn {
-            background-color: var(--color-secondary);
-            color: var(--color-primary);
-            box-shadow: 0 8px 0 rgba(212, 175, 55, 0.4), 0 12px 20px rgba(0, 0, 0, 0.15);
-            font-weight: 700;
-        }
+        .primary-btn {
+            background-color: var(--color-secondary);
+            color: var(--color-primary);
+            box-shadow: 0 8px 0 rgba(212, 175, 55, 0.4), 0 12px 20px rgba(0, 0, 0, 0.15);
+            font-weight: 700;
+        }
 
-        .primary-btn:hover {
-            background-color: #E8C547;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 0 rgba(212, 175, 55, 0.5), 0 15px 25px rgba(0, 0, 0, 0.2);
-        }
+        .primary-btn:hover {
+            background-color: #E8C547;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 0 rgba(212, 175, 55, 0.5), 0 15px 25px rgba(0, 0, 0, 0.2);
+        }
 
-        .secondary-btn {
-            background-color: var(--color-primary);
-            color: white;
-            box-shadow: 0 8px 0 rgba(27, 94, 63, 0.6), 0 12px 20px rgba(0, 0, 0, 0.15);
-            font-weight: 700;
-        }
+        .secondary-btn {
+            background-color: var(--color-primary);
+            color: white;
+            box-shadow: 0 8px 0 rgba(27, 94, 63, 0.6), 0 12px 20px rgba(0, 0, 0, 0.15);
+            font-weight: 700;
+        }
 
-        .secondary-btn:hover {
-            background-color: #0F3D27;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 0 rgba(27, 94, 63, 0.7), 0 15px 25px rgba(0, 0, 0, 0.2);
-        }
+        .secondary-btn:hover {
+            background-color: #0F3D27;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 0 rgba(27, 94, 63, 0.7), 0 15px 25px rgba(0, 0, 0, 0.2);
+        }
 
-        /* --- Modales (Cuadros Flotantes) --- */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 100;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(27, 94, 63, 0.8);
-            animation: fadeIn 0.3s ease;
-        }
+        /* --- Modales (Cuadros Flotantes) --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(27, 94, 63, 0.8);
+            animation: fadeIn 0.3s ease;
+        }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
-        .modal-content {
-            background: linear-gradient(135deg, #FFFFFF 0%, #F5F1E8 100%);
-            margin: 8% auto;
-            padding: 50px;
-            width: 85%;
-            max-width: 600px;
-            border-radius: 0;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            border: 3px solid var(--color-secondary);
-            animation: slideDown 0.4s ease;
-        }
+        .modal-content {
+            background: linear-gradient(135deg, #FFFFFF 0%, #F5F1E8 100%);
+            margin: 8% auto;
+            padding: 50px;
+            width: 85%;
+            max-width: 600px;
+            border-radius: 0;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border: 3px solid var(--color-secondary);
+            animation: slideDown 0.4s ease;
+        }
 
-        @keyframes slideDown {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
 
-        /* Esquinas decorativas del modal */
-        .modal-content::before,
-        .modal-content::after {
-            content: '';
-            position: absolute;
-            width: 35px;
-            height: 35px;
-            border: 2px solid var(--color-secondary);
-        }
+        /* Esquinas decorativas del modal */
+        .modal-content::before,
+        .modal-content::after {
+            content: '';
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            border: 2px solid var(--color-secondary);
+        }
 
-        .modal-content::before {
-            top: -10px;
-            left: -10px;
-            border-right: none;
-            border-bottom: none;
-        }
+        .modal-content::before {
+            top: -10px;
+            left: -10px;
+            border-right: none;
+            border-bottom: none;
+        }
 
-        .modal-content::after {
-            bottom: -10px;
-            right: -10px;
-            border-left: none;
-            border-top: none;
-        }
+        .modal-content::after {
+            bottom: -10px;
+            right: -10px;
+            border-left: none;
+            border-top: none;
+        }
 
-        .modal-close {
-            color: var(--color-secondary);
-            font-size: 42px;
-            font-weight: bold;
-            background: none;
-            border: none;
-            cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            transition: all 0.2s;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        .modal-close {
+            color: var(--color-secondary);
+            font-size: 42px;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            transition: all 0.2s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-        .modal-close:hover {
-            color: var(--color-primary);
-            transform: rotate(90deg);
-        }
+        .modal-close:hover {
+            color: var(--color-primary);
+            transform: rotate(90deg);
+        }
 
-        #registration-modal h2,
-        #payment-modal h2 {
-            color: var(--color-primary);
-            font-family: 'Playfair Display', serif;
-            margin-bottom: 30px;
-            font-size: 1.8em;
-            letter-spacing: 1px;
-        }
+        #registration-modal h2,
+        #payment-modal h2 {
+            color: var(--color-primary);
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            letter-spacing: 1px;
+        }
 
-        #registration-form input {
-            width: 100%;
-            padding: 14px 16px;
-            margin: 12px 0;
-            border: 2px solid var(--color-secondary);
-            border-radius: 0;
-            box-sizing: border-box;
-            font-size: 1em;
-            font-family: 'Roboto', sans-serif;
-            background: rgba(255, 255, 255, 0.9);
-            transition: all 0.3s ease;
-        }
+        #registration-form input {
+            width: 100%;
+            padding: 14px 16px;
+            margin: 12px 0;
+            border: 2px solid var(--color-secondary);
+            border-radius: 0;
+            box-sizing: border-box;
+            font-size: 1em;
+            font-family: 'Roboto', sans-serif;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
 
-        #registration-form input:focus {
-            outline: none;
-            border-color: var(--color-primary);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(27, 94, 63, 0.1);
-        }
+        #registration-form input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(27, 94, 63, 0.1);
+        }
 
-        #registration-form input::placeholder {
-            color: #999;
-        }
+        #registration-form input::placeholder {
+            color: #999;
+        }
 
-        .delivery-note {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(27, 94, 63, 0.05) 100%);
-            color: var(--color-text-dark);
-            padding: 18px 20px;
-            border-radius: 0;
-            margin: 25px 0 15px;
-            border: 2px dashed var(--color-secondary);
-            font-weight: 400;
-            text-align: left;
-            font-size: 0.95em;
-            line-height: 1.6;
-        }
+        .delivery-note {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(27, 94, 63, 0.05) 100%);
+            color: var(--color-text-dark);
+            padding: 18px 20px;
+            border-radius: 0;
+            margin: 25px 0 15px;
+            border: 2px dashed var(--color-secondary);
+            font-weight: 400;
+            text-align: left;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
 
-        .delivery-note strong {
-            color: var(--color-primary);
-            font-weight: 700;
-        }
+        .delivery-note strong {
+            color: var(--color-primary);
+            font-weight: 700;
+        }
 
-        .whatsapp-icon {
-            color: var(--color-whatsapp);
-            font-size: 1.3em;
-            margin-right: 8px;
-            font-weight: bold;
-        }
+        .whatsapp-icon {
+            color: var(--color-whatsapp);
+            font-size: 1.3em;
+            margin-right: 8px;
+            font-weight: bold;
+        }
 
-        #payment-modal h2 {
-            color: var(--color-secondary);
-        }
+        #payment-modal h2 {
+            color: var(--color-secondary);
+        }
 
-        .offer-description {
-            font-size: 1.15em;
-            margin: 25px 0;
-            color: var(--color-primary);
-            font-weight: 600;
-            line-height: 1.6;
-        }
+        .offer-description {
+            font-size: 1.15em;
+            margin: 25px 0;
+            color: var(--color-primary);
+            font-weight: 600;
+            line-height: 1.6;
+        }
 
-        #payment-modal ul {
-            list-style: none;
-            padding: 0;
-            text-align: left;
-            margin-bottom: 30px;
-        }
+        #payment-modal ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin-bottom: 30px;
+        }
 
-        #payment-modal ul li {
-            background: linear-gradient(135deg, var(--color-primary) 0%, #0F3D27 100%);
-            color: white;
-            padding: 15px 18px;
-            margin-bottom: 12px;
-            border-radius: 0;
-            font-size: 1em;
-            border-left: 4px solid var(--color-secondary);
-            transition: all 0.3s ease;
-        }
+        #payment-modal ul li {
+            background: linear-gradient(135deg, var(--color-primary) 0%, #0F3D27 100%);
+            color: white;
+            padding: 15px 18px;
+            margin-bottom: 12px;
+            border-radius: 0;
+            font-size: 1em;
+            border-left: 4px solid var(--color-secondary);
+            transition: all 0.3s ease;
+        }
 
-        #payment-modal ul li:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(27, 94, 63, 0.3);
-        }
+        #payment-modal ul li:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(27, 94, 63, 0.3);
+        }
 
-        /* Línea decorativa divisora */
-        .divider {
-            width: 60px;
-            height: 2px;
-            background: linear-gradient(to right, transparent, var(--color-secondary), transparent);
-            margin: 25px auto;
-        }
+        /* Línea decorativa divisora */
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--color-secondary), transparent);
+            margin: 25px auto;
+        }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .title {
-                font-size: 3em;
-            }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 3em;
+            }
 
-            .subtitle {
-                font-size: 1.1em;
-            }
+            .subtitle {
+                font-size: 1.1em;
+            }
 
-            .main-content,
-            .intro-content {
-                padding: 40px 30px;
-                max-width: 90%;
-            }
+            .main-content,
+            .intro-content {
+                padding: 40px 30px;
+                max-width: 90%;
+            }
 
-            .book-image {
-                width: 200px;
-            }
+            .book-image {
+                width: 200px;
+            }
 
-            .quote-box {
-                font-size: 1.5em;
-                padding: 20px 25px;
-            }
+            .quote-box {
+                font-size: 1.5em;
+                padding: 20px 25px;
+            }
 
-            .modal-content {
-                width: 90%;
-                padding: 35px 25px;
-            }
+            .modal-content {
+                width: 90%;
+                padding: 35px 25px;
+            }
 
-            .btn {
-                padding: 14px 25px;
-                font-size: 0.95em;
-            }
-        }
-    </style>
+            .btn {
+                padding: 14px 25px;
+                font-size: 0.95em;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <span style="display:none;" id="icon-whatsapp">&#x2705;</span>
-    <span style="display:none;" id="icon-email">&#x1F4E7;</span>
+    <span style="display:none;" id="icon-whatsapp">&#x2705;</span>
+    <span style="display:none;" id="icon-email">&#x1F4E7;</span>
 
-    <video class="video-background" autoplay muted loop playsinline>
-        <source src="https://raw.githubusercontent.com/cartasinteractivas-jpg/comovivirsano/main/Como.mp4" type="video/mp4">
-        Tu navegador no soporta videos HTML5.
-    </video>
+    <video class="video-background" autoplay muted loop playsinline>
+        <source src="https://raw.githubusercontent.com/cartasinteractivas-jpg/comovivirsano/main/Como.mp4" type="video/mp4">
+        Tu navegador no soporta videos HTML5.
+    </video>
 
-    <div id="intro-screen" class="screen active">
-        <div class="intro-content">
-            <h1 class="title">CÓMO VIVIR SANO</h1>
-            <div class="divider"></div>
-            <p class="subtitle">UN MÉTODO DE VIDA BASADO EN LAS LEYES NATURALES</p>
-            <p>[Una vida en armonía con la naturaleza.]</p>
-        </div>
-        <div class="transition-overlay"></div>
-    </div>
+    <div id="intro-screen" class="screen active">
+        <div class="intro-content">
+            <h1 class="title">CÓMO VIVIR SANO</h1>
+            <div class="divider"></div>
+            <p class="subtitle">UN MÉTODO DE VIDA BASADO EN LAS LEYES NATURALES</p>
+            <p>[Una vida en armonía con la naturaleza.]</p>
+        </div>
+        <div class="transition-overlay"></div>
+    </div>
 
-    <div id="main-screen" class="screen">
-        <div class="main-content">
-            <img src="https://raw.githubusercontent.com/cartasinteractivas-jpg/comovivirsano/main/libro.png" alt="Libro COMO VIVIR SANO" class="book-image">
-            <div class="quote-box">
-                <p>¿Y si la respuesta a la enfermedad estuviera en las leyes naturales?</p>
-            </div>
-            <button id="request-button" class="btn primary-btn">PEDIR MANUAL COMPLETO</button>
-            <p class="small-text">Adopta los principios de salud que han perdurado un siglo.</p>
-        </div>
-    </div>
+    <div id="main-screen" class="screen">
+        <div class="main-content">
+            <img src="https://raw.githubusercontent.com/cartasinteractivas-jpg/comovivirsano/main/libro.png" alt="Libro COMO VIVIR SANO" class="book-image">
+            <div class="quote-box">
+                <p>¿Y si la respuesta a la enfermedad estuviera en las leyes naturales?</p>
+            </div>
+            <button id="request-button" class="btn primary-btn">PEDIR MANUAL COMPLETO</button>
+            <p class="small-text">Adopta los principios de salud que han perdurado un siglo.</p>
+        </div>
+    </div>
 
-    <div id="registration-modal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('registration-modal')">&times;</button>
-            <h2>¡Tu Primer Paso Hacia el Bienestar!</h2>
-            <div class="divider"></div>
-            <form id="registration-form">
-                <input type="text" id="client-name" placeholder="Nombre Completo" required>
-                
-                <div class="delivery-note">
-                    <span class="whatsapp-icon">&#x2705;</span> ¡Importante! Enviaremos el enlace de pago y el material directamente a tu 
-                    <strong>Correo</strong> y <strong>WhatsApp</strong> para asegurar la entrega.
-                </div>
-                
-                <input type="email" id="client-email" placeholder="Correo Electrónico (Requerido)" required>
-                <input type="tel" id="client-phone" placeholder="Número de WhatsApp (Requerido)" required>
-                
-                <button type="submit" class="btn secondary-btn">REGISTRAR Y CONTINUAR</button>
-            </form>
-        </div>
-    </div>
+    <div id="registration-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('registration-modal')">&times;</button>
+            <h2>¡Tu Primer Paso Hacia el Bienestar!</h2>
+            <div class="divider"></div>
+            <form id="registration-form">
+                <input type="text" id="client-name" placeholder="Nombre Completo" required>
+                
+                <div class="delivery-note">
+                    <span class="whatsapp-icon">&#x2705;</span> ¡Importante! Enviaremos el enlace de pago y el material directamente a tu 
+                    <strong>Correo</strong> y <strong>WhatsApp</strong> para asegurar la entrega.
+                </div>
+                
+                <input type="email" id="client-email" placeholder="Correo Electrónico (Requerido)" required>
+                <input type="tel" id="client-phone" placeholder="Número de WhatsApp (Requerido)" required>
+                
+                <button type="submit" class="btn secondary-btn">REGISTRAR Y CONTINUAR</button>
+            </form>
+        </div>
+    </div>
 
-    <div id="payment-modal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('payment-modal')">&times;</button>
-            <h2>¡Pago de 20 Soles! Accede a tu Material 📚</h2>
-            <div class="divider"></div>
-            <p class="offer-description">
-                Obtén acceso completo a los dos tomos del manual "CÓMO VIVIR SANO" del Dr. Ivan A. Sabev, con métodos naturales probados durante un siglo.
-            </p>
-            <ul>
-                <li>✅ Dos PDF del manual <strong>CÓMO VIVIR SANO</strong> (Tomo 1 y 2) en formato digital.</li>
-                <li>✅ Enlace directo al <strong>libro virtual interactivo</strong> (basado en el video, para consulta).</li>
-            </ul>
-            <a href="#" id="payment-link" class="btn primary-btn" target="_blank">IR AL ENLACE DE PAGO</a>
-            <p class="small-text" style="color: var(--color-success); font-weight: bold; text-align: center;">El acceso será enviado inmediatamente a su correo y WhatsApp.</p>
-        </div>
-    </div>
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('payment-modal')">&times;</button>
+            <h2>¡Pago de 20 Soles! Accede a tu Material 📚</h2>
+            <div class="divider"></div>
+            <p class="offer-description">
+                Obtén acceso completo a los dos tomos del manual "CÓMO VIVIR SANO" del Dr. Ivan A. Sabev, con métodos naturales probados durante un siglo.
+            </p>
+            <ul>
+                <li>✅ Dos PDF del manual <strong>CÓMO VIVIR SANO</strong> (Tomo 1 y 2) en formato digital.</li>
+                <li>✅ Enlace directo al <strong>libro virtual interactivo</strong> (basado en el video, para consulta).</li>
+            </ul>
+            <a href="https://express.culqi.com/pago/BF72EDA5A6" id="payment-link" class="btn primary-btn" target="_blank">IR AL ENLACE DE PAGO</a>
+            <p class="small-text" style="color: var(--color-success); font-weight: bold; text-align: center;">El acceso será enviado inmediatamente a su correo y WhatsApp.</p>
+        </div>
+    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const introScreen = document.getElementById('intro-screen');
-            const mainScreen = document.getElementById('main-screen');
-            const transitionOverlay = document.querySelector('.transition-overlay');
-            const requestButton = document.getElementById('request-button');
-            const registrationModal = document.getElementById('registration-modal');
-            const registrationForm = document.getElementById('registration-form');
-            const paymentLinkElement = document.getElementById('payment-link'); // Elemento del enlace de pago
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const introScreen = document.getElementById('intro-screen');
+            const mainScreen = document.getElementById('main-screen');
+            const transitionOverlay = document.querySelector('.transition-overlay');
+            const requestButton = document.getElementById('request-button');
+            const registrationModal = document.getElementById('registration-modal');
+            const registrationForm = document.getElementById('registration-form');
 
-            // --- Funciones para Modales ---
-            window.closeModal = (id) => {
-                document.getElementById(id).style.display = 'none';
-            };
+            // --- Funciones para Modales ---
+            window.closeModal = (id) => {
+                document.getElementById(id).style.display = 'none';
+            };
 
-            const openModal = (id) => {
-                document.getElementById(id).style.display = 'block';
-            };
+            const openModal = (id) => {
+                document.getElementById(id).style.display = 'block';
+            };
 
-            // --- Simulación de Transición de Video (00:00 - 00:29) ---
-            setTimeout(() => {
-                // Inicia el 'fade out' del overlay (simulando la transición a negro)
-                transitionOverlay.style.opacity = 1;
+            // --- Simulación de Transición de Video (00:00 - 00:29) ---
+            setTimeout(() => {
+                // Inicia el 'fade out' del overlay (simulando la transición a negro)
+                transitionOverlay.style.opacity = 1;
 
-                setTimeout(() => {
-                    // Esconde la pantalla de intro y muestra la principal
-                    introScreen.classList.remove('active');
-                    mainScreen.classList.add('active');
-                }, 2000); // 2 segundos para la transición
-            }, 5000); // 5 segundos para que se vea la pantalla de intro antes de empezar
+                setTimeout(() => {
+                    // Esconde la pantalla de intro y muestra la principal
+                    introScreen.classList.remove('active');
+                    mainScreen.classList.add('active');
+                }, 2000); // 2 segundos para la transición
+            }, 5000); // 5 segundos para que se vea la pantalla de intro antes de empezar
 
-            // --- Lógica del Botón "PEDIR LIBRO" ---
-            requestButton.addEventListener('click', () => {
-                openModal('registration-modal');
-            });
+            // --- Lógica del Botón "PEDIR LIBRO" ---
+            requestButton.addEventListener('click', () => {
+                openModal('registration-modal');
+            });
 
-            // --- Inicializar EmailJS ---
-            emailjs.init('MUEtHrL2rwdVOLG9-');
+            // --- Inicializar EmailJS ---
+            emailjs.init('MUEtHrL2rwdVOLG9-');
 
-            // --- Función para enviar notificación por correo electrónico ---
-            // Nota: El alert original se ha eliminado para no interrumpir el flujo.
-            const sendPaymentNotification = async (clientEmail, clientPhone) => {
-                try {
-                    const response = await emailjs.send('gmail', 'template_h2y03p6', {
-                        to_email: 'dafon1981@gmail.com',
-                        client_email: clientEmail,
-                        client_phone: clientPhone,
-                        current_date: new Date().toLocaleString('es-ES')
-                    });
-                    console.log('Notificación enviada exitosamente:', response);
-                } catch (error) {
-                    console.error('Error al enviar la notificación:', error);
-                    // Considera añadir un modal de error aquí en un entorno de producción
-                }
-            };
+            // --- Función para enviar notificación por correo electrónico ---
+            const sendPaymentNotification = async (clientEmail, clientPhone) => {
+                try {
+                    const response = await emailjs.send('gmail', 'template_h2y03p6', {
+                        to_email: 'dafon1981@gmail.com',
+                        client_email: clientEmail,
+                        client_phone: clientPhone,
+                        current_date: new Date().toLocaleString('es-ES')
+                    });
+                    console.log('Notificación enviada exitosamente:', response);
+                    alert('¡Registro completado! Revisa tu Yape para realizar el pago.');
+                } catch (error) {
+                    console.error('Error al enviar la notificación:', error);
+                    alert('Hubo un error al procesar tu registro. Por favor, intenta de nuevo.');
+                }
+            };
 
-            // Variables globales para almacenar datos del cliente
-            let currentClientEmail = '';
-            let currentClientPhone = '';
+            // Variables globales para almacenar datos del cliente
+            let currentClientEmail = '';
+            let currentClientPhone = '';
 
-            // --- Lógica del Formulario de Registro (CORREGIDA) ---
-            registrationForm.addEventListener('submit', (e) => {
-                e.preventDefault(); // <--- ESTO ES CRUCIAL: Previene la recarga de la página
-                
-                // Recoger y guardar datos
-                currentClientEmail = document.getElementById('client-email').value;
-                currentClientPhone = document.getElementById('client-phone').value;
-                
-                console.log(`[REGISTRO EXITOSO] Cliente listo para pagar. Email: ${currentClientEmail}, WhatsApp: ${currentClientPhone}`);
-                
-                // Actualizar el enlace de pago con los datos del cliente
-                const paymentLink = `https://express.culqi.com/pago/BF72EDA5A6?email=${encodeURIComponent(currentClientEmail)}&phone=${encodeURIComponent(currentClientPhone)}`;
-                paymentLinkElement.href = paymentLink;
+            // --- Lógica del Formulario de Registro ---
+            registrationForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Recoger datos (para simulación/registro)
+                currentClientEmail = document.getElementById('client-email').value;
+                currentClientPhone = document.getElementById('client-phone').value;
+                
+                console.log(`[REGISTRO EXITOSO] Cliente listo para pagar. Email: ${currentClientEmail}, WhatsApp: ${currentClientPhone}`);
+                
+                // Cierra el modal de registro
+                closeModal('registration-modal');
 
-                // Cierra el modal de registro y abre el de pago
-                closeModal('registration-modal');
-                openModal('payment-modal');
-            });
+                // Abre el modal de pago
+                openModal('payment-modal');
 
-            // --- Lógica del Botón de Pago (CORREGIDA) ---
-            paymentLinkElement.addEventListener('click', (e) => {
-                // Envía la notificación antes de que el enlace se abra
-                // El atributo target="_blank" ya abrirá el enlace en una nueva pestaña.
-                sendPaymentNotification(currentClientEmail, currentClientPhone);
-                // No es necesario e.preventDefault() ni setTimeout. Dejar que el enlace (paymentLinkElement) haga su trabajo.
-            });
-        });
-    </script>
+                // Actualizar el enlace de pago con los datos del cliente
+                const paymentLink = `https://express.culqi.com/pago/BF72EDA5A6?email=${encodeURIComponent(currentClientEmail)}&phone=${encodeURIComponent(currentClientPhone)}`;
+                document.getElementById('payment-link').href = paymentLink;
+            });
+
+            // --- Lógica del Botón de Pago ---
+            document.getElementById('payment-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                // Enviar notificación por correo electrónico
+                sendPaymentNotification(currentClientEmail, currentClientPhone);
+                // Redirigir a Culqi después de enviar el correo
+                setTimeout(() => {
+                    window.location.href = `https://express.culqi.com/pago/BF72EDA5A6?email=${encodeURIComponent(currentClientEmail)}&phone=${encodeURIComponent(currentClientPhone)}`;
+                }, 500);
+            });
+        });
+    </script>
 </body>
 </html>
-
-
-
-
-
-
