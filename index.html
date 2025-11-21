@@ -688,15 +688,19 @@
                 }
             };
 
+            // Variables globales para almacenar datos del cliente
+            let currentClientEmail = '';
+            let currentClientPhone = '';
+
             // --- Lógica del Formulario de Registro ---
             registrationForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 
                 // Recoger datos (para simulación/registro)
-                const clientEmail = document.getElementById('client-email').value;
-                const clientPhone = document.getElementById('client-phone').value;
+                currentClientEmail = document.getElementById('client-email').value;
+                currentClientPhone = document.getElementById('client-phone').value;
                 
-                console.log(`[REGISTRO EXITOSO] Cliente listo para pagar. Email: ${clientEmail}, WhatsApp: ${clientPhone}`);
+                console.log(`[REGISTRO EXITOSO] Cliente listo para pagar. Email: ${currentClientEmail}, WhatsApp: ${currentClientPhone}`);
                 
                 // Cierra el modal de registro
                 closeModal('registration-modal');
@@ -704,12 +708,20 @@
                 // Abre el modal de pago
                 openModal('payment-modal');
 
-                    // Enviar notificación por correo electrónico
-                sendPaymentNotification(clientEmail, clientPhone);
-
                 // Actualizar el enlace de pago con los datos del cliente
-                const paymentLink = `https://express.culqi.com/pago/BF72EDA5A6?email=${encodeURIComponent(clientEmail)}&phone=${encodeURIComponent(clientPhone)}`;
+                const paymentLink = `https://express.culqi.com/pago/BF72EDA5A6?email=${encodeURIComponent(currentClientEmail)}&phone=${encodeURIComponent(currentClientPhone)}`;
                 document.getElementById('payment-link').href = paymentLink;
+            });
+
+            // --- Lógica del Botón de Pago ---
+            document.getElementById('payment-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                // Enviar notificación por correo electrónico
+                sendPaymentNotification(currentClientEmail, currentClientPhone);
+                // Redirigir a Culqi después de enviar el correo
+                setTimeout(() => {
+                    window.location.href = `https://express.culqi.com/pago/BF72EDA5A6?email=${encodeURIComponent(currentClientEmail)}&phone=${encodeURIComponent(currentClientPhone)}`;
+                }, 500);
             });
         });
     </script>
