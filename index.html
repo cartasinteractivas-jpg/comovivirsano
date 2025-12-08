@@ -174,11 +174,11 @@
         </div>
     </div>
 
-    <!-- Modal Pago -->
+    <!-- Modal Pedido de Libro (Anteriormente Pago) -->
     <div id="payment-modal" class="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('payment-modal')">×</button>
-            <h2>¡Pago de 20 Soles! Accede a tu Material</h2>
+            <h2>¡Pide tus Libros! Accede a tu Material</h2>
             <div class="divider"></div>
             <p style="font-size:1.15em; margin:25px 0; color:var(--color-primary); font-weight:600;">
                 Obtén acceso completo a los dos tomos del manual "CÓMO VIVIR SANO" del Dr. Ivan A. Sabev.
@@ -187,13 +187,10 @@
                 <li style="background:#1B5E3F; color:white; padding:15px; margin-bottom:12px; border-left:4px solid var(--color-secondary);">
                     Checkmark Dos PDF del manual <strong>CÓMO VIVIR SANO</strong> (Tomo 1 y 2)
                 </li>
-                <li style="background:#1B5E3F; color:white; padding:15px; margin-bottom:12px; border-left:4px solid var(--color-secondary);">
-                    Checkmark Enlace directo al <strong>libro virtual interactivo</strong>
-                </li>
             </ul>
-            <a href="#" id="payment-link" class="btn primary-btn" target="_blank">IR AL ENLACE DE PAGO</a>
+            <a href="#" id="payment-link" class="btn primary-btn" target="_blank">Pide tu libro!</a>
             <p style="color:var(--color-success); font-weight:bold; margin-top:20px;">
-                El acceso será enviado inmediatamente a tu correo y WhatsApp.
+                Serás redirigido a WhatsApp para confirmar tu pedido.
             </p>
         </div>
     </div>
@@ -221,7 +218,7 @@
                 if (modal) modal.classList.add('active');
             };
 
-            // Transición intro → principal
+            // Transición de pantalla (manteniendo la lógica original)
             setTimeout(() => {
                 transitionOverlay.style.opacity = '1';
                 setTimeout(() => {
@@ -233,9 +230,10 @@
             // Abrir registro
             requestButton.addEventListener('click', () => openModal('registration-modal'));
 
-            // EmailJS
+            // EmailJS (Se mantiene para enviar la notificación)
             emailjs.init('MUEtHrL2rwdVOLG9-');
 
+            let currentClientName = '';
             let currentClientEmail = '';
             let currentClientPhone = '';
 
@@ -243,6 +241,7 @@
                 try {
                     await emailjs.send('gmail', 'template_h2y03p6', {
                         to_email: 'dafon1981@gmail.com',
+                        client_name: currentClientName, // Añadido para la notificación
                         client_email: currentClientEmail,
                         client_phone: currentClientPhone,
                         current_date: new Date().toLocaleString('es-ES')
@@ -254,11 +253,11 @@
             registrationForm.addEventListener('submit', (e) => {
                 e.preventDefault();
 
-                const name = document.getElementById('client-name').value.trim();
+                currentClientName = document.getElementById('client-name').value.trim();
                 currentClientEmail = document.getElementById('client-email').value.trim();
                 currentClientPhone = document.getElementById('client-phone').value.trim();
 
-                if (!name || !currentClientEmail || !currentClientPhone) {
+                if (!currentClientName || !currentClientEmail || !currentClientPhone) {
                     alert('Por favor completa todos los campos');
                     return;
                 }
@@ -266,13 +265,20 @@
                 closeModal('registration-modal');
                 openModal('payment-modal');
 
-                const link = `https://express.culqi.com/pago/BF72EDA5A6?email=${encodeURIComponent(currentClientEmail)}&phone=${encodeURIComponent(currentClientPhone)}`;
-                document.getElementById('payment-link').href = link;
+                // --- MODIFICACIÓN CLAVE: Enlace de WhatsApp ---
+                const whatsappNumber = '51967188120'; // Número de WhatsApp con código de país (asumiendo Perú +51)
+                const message = `Hola, mi nombre es ${currentClientName}, mi correo es ${currentClientEmail} y mi número es ${currentClientPhone}. Deseo pedir los 2 PDF del libro "Vivir Sano" (Tomo 1 y 2).`;
+                
+                const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+                document.getElementById('payment-link').href = whatsappLink;
+                // ----------------------------------------------
             });
 
-            // Click en botón de pago
+            // Click en botón de WhatsApp (Anteriormente botón de pago)
             document.getElementById('payment-link').addEventListener('click', (e) => {
-                e.preventDefault();
+                // El preventDefault ya no es necesario aquí si el enlace es directo,
+                // pero lo mantengo para asegurar que la notificación se envíe antes de abrir el enlace.
+                e.preventDefault(); 
                 sendNotification();
                 setTimeout(() => {
                     window.open(document.getElementById('payment-link').href, '_blank');
